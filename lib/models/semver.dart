@@ -44,6 +44,27 @@ class SemVer {
 
   SemVer bumpPatch() => SemVer(major, minor, patch + 1);
 
+  SemVer bumpPrerelease() {
+    if (preRelease == null || preRelease!.isEmpty) {
+      return copyWith(preRelease: 'alpha.1');
+    }
+
+    final segments = preRelease!.split('.');
+    final last = segments.last;
+    final number = int.tryParse(last);
+
+    if (number != null) {
+      segments[segments.length - 1] = '${number + 1}';
+      return copyWith(preRelease: segments.join('.'));
+    }
+
+    return copyWith(preRelease: '$preRelease.1');
+  }
+
+  SemVer withBuildNumber(int buildNumber) {
+    return copyWith(buildMetadata: buildNumber.toString());
+  }
+
   SemVer copyWith({
     int? major,
     int? minor,

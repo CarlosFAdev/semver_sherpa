@@ -1,13 +1,16 @@
 import 'dart:io';
 
 import '../changelog_generator.dart';
+import '../models/semver.dart';
 import '../release_executor.dart';
 import '../utils/version_validator.dart';
 
 class VersionService {
   final ReleaseExecutor executor;
+  final DateTimeProvider _now;
 
-  VersionService(this.executor);
+  VersionService(this.executor, {DateTimeProvider? now})
+      : _now = now ?? DateTime.now;
 
   Future<void> runRelease(
       String bumpType, {
@@ -30,7 +33,7 @@ class VersionService {
     if (!noCommit) {
       if (!noChangelog) {
         final changelog =
-        await ChangelogGenerator(executor).generate(nextVersion);
+        await ChangelogGenerator(executor, now: _now).generate(nextVersion);
 
         await _appendToChangelog(changelog);
       }
@@ -64,16 +67,37 @@ class VersionService {
 
     await executor.updateVersion(version);
 
+    final canTag = !noCommit && !noTag;
+
     if (!noCommit) {
       await executor.commit('chore: set version to $version');
+    } else if (!noTag) {
+      executor.getLogger.warn('[WARNING] Cannot create tag because commit was skipped.');
     }
 
-    if (!noTag) {
+    if (canTag) {
       await executor.createTag('v$version');
     }
 
-    if (push) {
-      await executor.push();
+    if (!noCommit) {
+      if (push) await executor.push();
+    } else if (push) {
+      executor.getLogger.warn('[WARNING] Cannot push because commit was skipped.');
+    }
+  }
+
+  SemVer _bumpVersion(SemVer current, String bumpType) {
+    switch (bumpType) {
+      case 'major':
+        return current.bumpMajor();
+      case 'minor':
+        return current.bumpMinor();
+      case 'patch':
+        return current.bumpPatch();
+      case 'prerelease':
+        return current.bumpPrerelease();
+      default:
+        throw ArgumentError('Invalid bump type');
     }
   }
 
@@ -86,69 +110,10 @@ class VersionService {
 
   Future<String> _calculateNextVersion(String bumpType) async {
     final current = await _getCurrentVersionSafe();
-
-    final buildParts = current.split('+');
-    final versionCoreAndPrerelease = buildParts[0];
-    final build = buildParts.length > 1 ? int.tryParse(buildParts[1]) ?? 0 : 0;
-
-    final prereleaseSplit = versionCoreAndPrerelease.split('-');
-    final core = prereleaseSplit[0];
-    final prerelease =
-    prereleaseSplit.length > 1 ? prereleaseSplit[1] : null;
-
-    final parts = core.split('.');
-    int major = int.parse(parts[0]);
-    int minor = int.parse(parts[1]);
-    int patch = int.parse(parts[2]);
-
-    String nextVersion;
-
-    switch (bumpType) {
-      case 'major':
-        nextVersion = '${major + 1}.0.0';
-        break;
-
-      case 'minor':
-        nextVersion = '$major.${minor + 1}.0';
-        break;
-
-      case 'patch':
-        nextVersion = '$major.$minor.${patch + 1}';
-        break;
-
-      case 'prerelease':
-        nextVersion = _nextPrerelease(major, minor, patch, prerelease);
-        break;
-
-      default:
-        throw ArgumentError('Invalid bump type');
-    }
-    
-    final nextBuild = build + 1;
-    return '$nextVersion+$nextBuild';
-  }
-
-  String _nextPrerelease(
-      int major,
-      int minor,
-      int patch,
-      String? prerelease,
-      ) {
-    if (prerelease == null) {
-      return '$major.$minor.$patch-alpha.1';
-    }
-
-    final segments = prerelease.split('.');
-    final last = segments.last;
-
-    final number = int.tryParse(last);
-
-    if (number != null) {
-      segments[segments.length - 1] = '${number + 1}';
-      return '$major.$minor.$patch-${segments.join('.')}';
-    }
-
-    return '$major.$minor.$patch-$prerelease.1';
+    final parsed = SemVer.parse(current);
+    final next = _bumpVersion(parsed, bumpType);
+    final nextBuild = parsed.buildNumber + 1;
+    return next.withBuildNumber(nextBuild).toString();
   }
 
   Future<String> _getCurrentVersionSafe() async {
@@ -173,8 +138,4 @@ class VersionService {
 
     await file.writeAsString(updated);
   }
-}
-
-abstract class VersionReader {
-  Future<String> getCurrentVersion();
 }

@@ -1,5 +1,6 @@
 import 'package:args/command_runner.dart';
 import '../release_executor.dart';
+import '../services/version_service.dart';
 import '../utils/version_validator.dart';
 
 class SetCommand extends Command<void> {
@@ -37,28 +38,14 @@ class SetCommand extends Command<void> {
     }
 
     final executor = dryRun ? DryRunReleaseExecutor() : RealReleaseExecutor();
+    final service = VersionService(executor);
 
-    // Update version
-    await executor.updateVersion(version);
-
-    // Tag only if commit is created
-    final canTag = !noCommit && !noTag;
-
-    if (!noCommit) {
-      await executor.commit('chore(release): $version');
-    } else if (!noTag) {
-      executor.getLogger.warn('[WARNING] Cannot create tag because commit was skipped.');
-    }
-
-    if (canTag) {
-      await executor.createTag('v$version');
-    }
-
-    if (!noCommit) {
-      if (push) await executor.push();
-    } else if (push) {
-      executor.getLogger.warn('[WARNING] Cannot push because commit was skipped.');
-    }
+    await service.setVersion(
+      version,
+      noCommit: noCommit,
+      noTag: noTag,
+      push: push,
+    );
 
     print('Version set to $version');
   }

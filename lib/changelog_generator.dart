@@ -1,9 +1,13 @@
 import 'release_executor.dart';
 
+typedef DateTimeProvider = DateTime Function();
+
 class ChangelogGenerator {
   final ReleaseExecutor executor;
+  final DateTimeProvider _now;
 
-  ChangelogGenerator(this.executor);
+  ChangelogGenerator(this.executor, {DateTimeProvider? now})
+      : _now = now ?? DateTime.now;
 
   Future<String> generate(String newVersion) async {
     final lastTag = await executor.getLastTag();
@@ -70,7 +74,7 @@ class ChangelogGenerator {
 
   String _buildSection(String version, Map<String, List<String>> categories) {
     final buffer = StringBuffer();
-    final today = _formatDate(DateTime.now());
+    final today = _formatDate(_now());
 
     buffer.writeln('## [$version] - $today');
     buffer.writeln();
@@ -89,7 +93,7 @@ class ChangelogGenerator {
   }
 
   String _emptySection(String version) {
-    final today = _formatDate(DateTime.now());
+    final today = _formatDate(_now());
 
     return '''
 ## [$version] - $today
