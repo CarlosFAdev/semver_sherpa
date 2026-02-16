@@ -112,6 +112,7 @@ class VersionService {
     final current = await _getCurrentVersionSafe();
     final parsed = SemVer.parse(current);
     final next = _bumpVersion(parsed, bumpType);
+    // Always advance build metadata for each release, even on prerelease bumps.
     final nextBuild = parsed.buildNumber + 1;
     return next.withBuildNumber(nextBuild).toString();
   }

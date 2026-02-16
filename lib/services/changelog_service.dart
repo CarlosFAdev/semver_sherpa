@@ -18,6 +18,7 @@ class ChangelogService {
 
   String upsertUnreleasedInContent(String content, String section) {
     final normalizedSection = section.trimRight();
+    // Keep a Changelog expects a single Unreleased section; replace if present.
     final unreleasedPattern =
         RegExp(r'## \[Unreleased\][\s\S]*?(?=\n## \[|$)');
 
@@ -25,6 +26,7 @@ class ChangelogService {
       return content.replaceFirst(unreleasedPattern, normalizedSection);
     }
 
+    // Insert Unreleased before the first version section if it exists.
     final sectionMatch = RegExp(r'\n## \[').firstMatch(content);
     if (sectionMatch != null) {
       final insertIndex = sectionMatch.start;

@@ -49,6 +49,7 @@ class SemVer {
       return copyWith(preRelease: 'alpha.1');
     }
 
+    // If the prerelease ends with a number, increment it.
     final segments = preRelease!.split('.');
     final last = segments.last;
     final number = int.tryParse(last);

@@ -153,6 +153,7 @@ class RealReleaseExecutor implements ReleaseExecutor {
       return;
     }
 
+    // Push commits and tags separately to avoid pushing tags when commits fail.
     if (commitsToPush) {
       final result = await _runGitOrThrow(['push'], failureMessage: 'Failed to push commits.');
       logger.info(result.stdout.toString());
