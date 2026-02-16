@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:args/command_runner.dart';
 
 import 'commands/bump_command.dart';
+import 'commands/changelog_command.dart';
 import 'commands/set_command.dart';
 import 'commands/validate_command.dart';
 
@@ -15,6 +16,7 @@ class ReleaseTool {
   ) {
     _runner
       ..addCommand(BumpCommand())
+      ..addCommand(ChangelogCommand())
       ..addCommand(SetCommand())
       ..addCommand(ValidateCommand());
   }

@@ -26,10 +26,27 @@ class ChangelogGenerator {
     return _buildSection(newVersion, categorized);
   }
 
+  Future<String> generateUnreleased() async {
+    final lastTag = await executor.getLastTag();
+    final commits = await executor.getCommitsSince(lastTag);
+
+    final filtered = commits
+        .where((c) => !_isReleaseCommit(c))
+        .toList();
+
+    if (filtered.isEmpty) {
+      return _emptyUnreleased();
+    }
+
+    final categorized = _categorize(filtered);
+    return _buildUnreleasedSection(categorized);
+  }
+
   bool _isReleaseCommit(String message) {
     final lower = message.toLowerCase().trim();
 
     return lower.startsWith('chore(release)') ||
+        lower.startsWith('chore: release') ||
         lower.startsWith('release:') ||
         lower.startsWith('build: release') ||
         RegExp(r'^v?\d+\.\d+\.\d+').hasMatch(lower);
@@ -92,11 +109,43 @@ class ChangelogGenerator {
     return buffer.toString();
   }
 
+  String _buildUnreleasedSection(Map<String, List<String>> categories) {
+    final buffer = StringBuffer();
+
+    buffer.writeln('## [Unreleased]');
+    buffer.writeln();
+
+    categories.forEach((title, items) {
+      if (items.isEmpty) return;
+
+      buffer.writeln('### $title');
+      for (final item in items) {
+        buffer.writeln('- $item');
+      }
+      buffer.writeln();
+    });
+
+    if (buffer.toString().trim() == '## [Unreleased]') {
+      return _emptyUnreleased();
+    }
+
+    return buffer.toString();
+  }
+
   String _emptySection(String version) {
     final today = _formatDate(_now());
 
     return '''
 ## [$version] - $today
+
+_No significant changes._
+
+''';
+  }
+
+  String _emptyUnreleased() {
+    return '''
+## [Unreleased]
 
 _No significant changes._
 
