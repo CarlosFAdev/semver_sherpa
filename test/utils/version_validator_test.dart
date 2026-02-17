@@ -22,4 +22,16 @@ void main() {
       expect(isValidVersion('1.2.3+'), isFalse);
     });
   });
+
+  group('isValidVersionWithBuild', () {
+    test('accepts versions with build metadata', () {
+      expect(isValidVersionWithBuild('1.2.3+4'), isTrue);
+      expect(isValidVersionWithBuild('1.2.3-alpha.1+build.5'), isTrue);
+    });
+
+    test('rejects versions without build metadata', () {
+      expect(isValidVersionWithBuild('1.2.3'), isFalse);
+      expect(isValidVersionWithBuild('1.2.3-alpha.1'), isFalse);
+    });
+  });
 }

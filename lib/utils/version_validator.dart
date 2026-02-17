@@ -15,3 +15,10 @@ final RegExp _semverRegex = RegExp(
 bool isValidVersion(String version) {
   return _semverRegex.hasMatch(version);
 }
+
+bool isValidVersionWithBuild(String version) {
+  if (!_semverRegex.hasMatch(version)) {
+    return false;
+  }
+  return version.contains('+');
+}

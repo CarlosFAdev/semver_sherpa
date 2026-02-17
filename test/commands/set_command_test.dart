@@ -34,16 +34,16 @@ void main() {
   });
 
   group('SetCommand valid flows', () {
-    test('accepts valid semantic version', () async {
+    test('accepts valid semantic version with build metadata', () async {
       expect(
-            () => runner.run(['set', '1.2.3', '--dry-run']),
+            () => runner.run(['set', '1.2.3+4', '--dry-run']),
         returnsNormally,
       );
     });
 
-    test('accepts prerelease version', () async {
+    test('accepts prerelease version with build metadata', () async {
       expect(
-            () => runner.run(['set', '1.2.3-alpha.1', '--dry-run']),
+            () => runner.run(['set', '1.2.3-alpha.1+5', '--dry-run']),
         returnsNormally,
       );
     });
@@ -57,21 +57,21 @@ void main() {
 
     test('accepts --no-commit flag', () async {
       expect(
-            () => runner.run(['set', '2.0.0', '--no-commit', '--dry-run']),
+            () => runner.run(['set', '2.0.0+1', '--no-commit', '--dry-run']),
         returnsNormally,
       );
     });
 
     test('accepts --no-tag flag', () async {
       expect(
-            () => runner.run(['set', '2.0.0', '--no-tag', '--dry-run']),
+            () => runner.run(['set', '2.0.0+1', '--no-tag', '--dry-run']),
         returnsNormally,
       );
     });
 
     test('accepts --push flag', () async {
       expect(
-            () => runner.run(['set', '2.0.0', '--push', '--dry-run']),
+            () => runner.run(['set', '2.0.0+1', '--push', '--dry-run']),
         returnsNormally,
       );
     });

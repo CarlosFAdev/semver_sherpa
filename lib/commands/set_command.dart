@@ -30,9 +30,9 @@ class SetCommand extends Command<void> {
 
     final version = argResults!.rest.first;
 
-    if (!isValidVersion(version)) {
+    if (!isValidVersionWithBuild(version)) {
       throw UsageException(
-        'Invalid version: "$version". Must be valid SemVer (e.g., 1.2.3 or 1.2.3+4)',
+        'Invalid version: "$version". Must include build metadata (e.g., 1.2.3+4)',
         usage,
       );
     }
