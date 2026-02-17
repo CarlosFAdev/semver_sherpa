@@ -3,6 +3,7 @@ import 'dart:io';
 import '../changelog_generator.dart';
 import '../models/semver.dart';
 import '../release_executor.dart';
+import '../services/changelog_service.dart';
 import '../utils/version_validator.dart';
 
 class VersionService {
@@ -125,18 +126,30 @@ class VersionService {
 
   Future<void> _appendToChangelog(String content) async {
     final file = File('CHANGELOG.md');
+    final service = ChangelogService();
+    final emptyUnreleased = _emptyUnreleasedSection();
 
     if (!file.existsSync()) {
-      await file.writeAsString('# Changelog\n\n$content');
+      final initial = service.upsertUnreleasedInContent('', emptyUnreleased);
+      final updated = service.insertReleaseInContent(initial, content);
+      await file.writeAsString(updated);
       return;
     }
 
     final existing = await file.readAsString();
-    final updated = existing.replaceFirst(
-      '# Changelog',
-      '# Changelog\n\n$content',
-    );
+    final withUnreleased =
+        service.upsertUnreleasedInContent(existing, emptyUnreleased);
+    final updated = service.insertReleaseInContent(withUnreleased, content);
 
     await file.writeAsString(updated);
+  }
+
+  String _emptyUnreleasedSection() {
+    return '''
+## [Unreleased]
+
+_No significant changes._
+
+''';
   }
 }

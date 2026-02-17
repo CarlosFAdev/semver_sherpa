@@ -43,6 +43,42 @@ class ChangelogService {
     return '$trimmed\n\n$normalizedSection\n';
   }
 
+  String insertReleaseInContent(String content, String section) {
+    final normalizedSection = section.trimRight();
+    final unreleasedPattern =
+        RegExp(r'## \[Unreleased\][\s\S]*?(?=\n## \[|$)');
+
+    if (unreleasedPattern.hasMatch(content)) {
+      return content.replaceFirstMapped(unreleasedPattern, (match) {
+        final existing = match.group(0)!;
+        final combined = _joinSections(existing, normalizedSection);
+        return '$combined\n';
+      });
+    }
+
+    final sectionMatch = RegExp(r'\n## \[').firstMatch(content);
+    if (sectionMatch != null) {
+      final insertIndex = sectionMatch.start;
+      final prefix = content.substring(0, insertIndex).trimRight();
+      final suffix = content.substring(insertIndex);
+      final combined = _joinSections(prefix, normalizedSection);
+      return '$combined\n$suffix';
+    }
+
+    final trimmed = content.trimRight();
+    if (trimmed.isEmpty) {
+      return '$normalizedSection\n';
+    }
+
+    return '${_joinSections(trimmed, normalizedSection)}\n';
+  }
+
+  String _joinSections(String first, String second) {
+    final normalizedFirst = first.trimRight();
+    final normalizedSecond = second.trimLeft();
+    return '$normalizedFirst\n\n$normalizedSecond';
+  }
+
   String _initialChangelog(String section) {
     return '''# Changelog
 All notable changes to this project will be documented in this file.
