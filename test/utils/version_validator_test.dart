@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:release_tool/utils/version_validator.dart';
+import 'package:semver_sherpa/utils/version_validator.dart';
 
 void main() {
   group('isValidVersion', () {

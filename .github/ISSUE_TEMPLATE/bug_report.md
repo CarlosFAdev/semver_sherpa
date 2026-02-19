@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Report a bug to help improve release_tool
+about: Report a bug to help improve semver_sherpa
 title: "bug: "
 labels: ["bug"]
 assignees: []
@@ -23,7 +23,7 @@ What actually happened.
 ## Environment
 - OS:
 - Dart SDK:
-- release_tool version:
+- semver_sherpa version:
 - Git version:
 
 ## Additional context

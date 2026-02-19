@@ -11,7 +11,7 @@ class ReleaseTool {
 
   ReleaseTool()
       : _runner = CommandRunner<void>(
-    'release-tool',
+    'semver_sherpa',
     'A CLI tool to manage versions and releases',
   ) {
     _runner

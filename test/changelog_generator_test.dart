@@ -1,7 +1,7 @@
 import 'package:test/test.dart';
-import 'package:release_tool/changelog_generator.dart';
-import 'package:release_tool/release_executor.dart';
-import 'package:release_tool/logger.dart';
+import 'package:semver_sherpa/changelog_generator.dart';
+import 'package:semver_sherpa/release_executor.dart';
+import 'package:semver_sherpa/logger.dart';
 
 class _FakeReleaseExecutor implements ReleaseExecutor {
   _FakeReleaseExecutor(this._commits);

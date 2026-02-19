@@ -1,7 +1,7 @@
 import 'package:test/test.dart';
-import 'package:release_tool/release_executor.dart';
-import 'package:release_tool/services/version_service.dart';
-import 'package:release_tool/logger.dart';
+import 'package:semver_sherpa/release_executor.dart';
+import 'package:semver_sherpa/services/version_service.dart';
+import 'package:semver_sherpa/logger.dart';
 
 class _FakeReleaseExecutor implements ReleaseExecutor {
   _FakeReleaseExecutor(this._currentVersion);

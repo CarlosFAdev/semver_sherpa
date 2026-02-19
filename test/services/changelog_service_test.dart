@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:release_tool/services/changelog_service.dart';
+import 'package:semver_sherpa/services/changelog_service.dart';
 
 void main() {
   group('ChangelogService upsertUnreleasedInContent', () {

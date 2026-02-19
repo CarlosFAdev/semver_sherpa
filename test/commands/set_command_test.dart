@@ -1,12 +1,12 @@
 import 'package:test/test.dart';
 import 'package:args/command_runner.dart';
-import 'package:release_tool/commands/set_command.dart';
+import 'package:semver_sherpa/commands/set_command.dart';
 
 void main() {
   late CommandRunner<void> runner;
 
   setUp(() {
-    runner = CommandRunner<void>('release_tool', 'Test CLI')
+    runner = CommandRunner<void>('semver_sherpa', 'Test CLI')
       ..addCommand(SetCommand());
   });
 

@@ -1,6 +1,6 @@
-# Release Tool
+# SemVer Sherpa
 
-Release Tool is a Dart CLI that manages SemVer versions for Flutter/Dart projects
+SemVer Sherpa is a Dart CLI that manages SemVer versions for Flutter/Dart projects
 and keeps your CHANGELOG.md in a Keep a Changelog-compatible format.
 
 ## Features
@@ -18,19 +18,19 @@ and keeps your CHANGELOG.md in a Keep a Changelog-compatible format.
 Install from pub.dev:
 
 ```bash
-dart pub global activate release_tool
+dart pub global activate semver_sherpa
 ```
 
-The executable name is `release_tool`:
+The executable name is `semver_sherpa`:
 
 ```bash
-release_tool --help
+semver_sherpa --help
 ```
 
 Alternatively, run directly from the repo:
 
 ```bash
-dart run bin/release_tool.dart --help
+dart run bin/semver_sherpa.dart --help
 ```
 
 For local development installs:
@@ -44,7 +44,7 @@ dart pub global activate --source path .
 ### Bump a version
 
 ```bash
-release_tool bump patch
+semver_sherpa bump patch
 ```
 
 Options:
@@ -57,7 +57,7 @@ Options:
 ### Set a version
 
 ```bash
-release_tool set 1.2.3+4
+semver_sherpa set 1.2.3+4
 ```
 
 Options:
@@ -69,7 +69,7 @@ Options:
 ### Generate changelog entries
 
 ```bash
-release_tool changelog
+semver_sherpa changelog
 ```
 
 This command updates the `## [Unreleased]` section using commits since the last
@@ -78,7 +78,7 @@ Git tag. Use `--dry-run` to print the section without writing.
 ### Validate repository state
 
 ```bash
-release_tool validate
+semver_sherpa validate
 ```
 
 Fails if there are uncommitted changes.

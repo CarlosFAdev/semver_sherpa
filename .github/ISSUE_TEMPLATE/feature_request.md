@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest an idea or enhancement for release_tool
+about: Suggest an idea or enhancement for semver_sherpa
 title: "feat: "
 labels: ["enhancement"]
 assignees: []
