@@ -15,16 +15,16 @@ and keeps your CHANGELOG.md in a Keep a Changelog-compatible format.
 - a `pubspec.yaml` with a `version:` field
 
 ## Install
-This repo is not published to pub.dev. Install from source:
+Install from pub.dev:
 
 ```bash
-dart pub global activate --source path .
+dart pub global activate release_tool
 ```
 
-The executable name is `release`:
+The executable name is `release_tool`:
 
 ```bash
-release --help
+release_tool --help
 ```
 
 Alternatively, run directly from the repo:
@@ -33,12 +33,18 @@ Alternatively, run directly from the repo:
 dart run bin/release_tool.dart --help
 ```
 
+For local development installs:
+
+```bash
+dart pub global activate --source path .
+```
+
 ## Usage
 
 ### Bump a version
 
 ```bash
-release bump patch
+release_tool bump patch
 ```
 
 Options:
@@ -51,7 +57,7 @@ Options:
 ### Set a version
 
 ```bash
-release set 1.2.3+4
+release_tool set 1.2.3+4
 ```
 
 Options:
@@ -63,7 +69,7 @@ Options:
 ### Generate changelog entries
 
 ```bash
-release changelog
+release_tool changelog
 ```
 
 This command updates the `## [Unreleased]` section using commits since the last
@@ -72,7 +78,7 @@ Git tag. Use `--dry-run` to print the section without writing.
 ### Validate repository state
 
 ```bash
-release validate
+release_tool validate
 ```
 
 Fails if there are uncommitted changes.
@@ -86,4 +92,4 @@ Removed, Deprecated, Security). Commits are inferred by prefix:
 - `remove:` -> Removed
 
 ## Licensing
-See `LICENSING.md` for the personal-use and professional-use terms.
+See `LICENSE` for the personal-use and professional-use terms.
