@@ -1,37 +1,21 @@
-# Licensing
+MIT License
 
-SemVer Sherpa is free to use for **personal and non-commercial purposes**.
+Copyright (c) 2026 Carlos Fernández Alonso
 
-## Personal Use (Free)
-You may use this tool free of charge if:
-- You are an individual developer
-- You use it for learning, experimentation, or personal projects
-- You use it in open-source projects that are not monetized
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-## Professional Use (Requires License)
-A Professional License is required if:
-- You use this tool at work
-- You use it as part of paid projects
-- You use it within a company or organization
-- You use it in CI or release workflows for commercial software
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-## License Enforcement
-Some commands intended for professional workflows require an active
-Professional License.
-
-The tool may detect **contextual indicators of professional usage**
-(e.g. CI environments or corporate repositories) to determine whether
-a license is required.
-
-No source code, project data, or personal information is collected or
-transmitted.
-
-## Transparency
-This tool does not:
-- phone home
-- track usage
-- collect analytics
-- block builds silently
-
-If you believe the tool incorrectly detected professional usage,
-contact the maintainer to resolve it.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

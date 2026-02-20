@@ -92,4 +92,11 @@ Removed, Deprecated, Security). Commits are inferred by prefix:
 - `remove:` -> Removed
 
 ## Licensing
-See `LICENSE` for the personal-use and professional-use terms.
+SemVer Sherpa is licensed under the MIT License. See `LICENSE` for details.
+
+## Support
+If this tool helps, you can support me here:
+https://buymeacoffee.com/carlosfdev
+https://patreon.com/CarlosF_dev
+
+![Buy me a coffee QR code](assets/qr-code.png)
