@@ -1,6 +1,6 @@
 name: semver_sherpa
 description: CLI to manage SemVer versions and Keep a Changelog updates for Dart/Flutter projects.
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/CarlosFAdev/semver_sherpa
 repository: https://github.com/CarlosFAdev/semver_sherpa
 issue_tracker: https://github.com/CarlosFAdev/semver_sherpa/issues
