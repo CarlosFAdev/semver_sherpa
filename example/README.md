@@ -1,4 +1,6 @@
-# Usage Example (pub.dev)
+# Example
+
+**Arch Sherpa — Part of the Flutter Sherpa Suite**
 
 This example shows a typical flow for Dart/Flutter projects.
 

@@ -1,5 +1,7 @@
 # SemVer Sherpa
 
+**SemVer Sherpa - Part of the Flutter Sherpa Suite**
+
 SemVer Sherpa is a Dart CLI that manages SemVer versions for Flutter/Dart projects
 and keeps your CHANGELOG.md in a Keep a Changelog-compatible format.
 
@@ -91,12 +93,15 @@ Removed, Deprecated, Security). Commits are inferred by prefix:
 - `docs:`, `refactor:`, `perf:`, `style:` -> Changed
 - `remove:` -> Removed
 
+## Flutter Sherpa Suite
+SemVer Sherpa is part of the Flutter Sherpa Suite alongside
+`~/develop/arch_sherpa`. Use `arch_sherpa` for architecture scaffolding
+and `semver_sherpa` for disciplined release/version workflows.
+
 ## Licensing
 SemVer Sherpa is licensed under the MIT License. See `LICENSE` for details.
 
 ## Support
-If this tool helps, you can support me here:
-https://buymeacoffee.com/carlosfdev
-https://patreon.com/CarlosF_dev
 
-![Buy me a coffee QR code](assets/qr-code.png)
+- Buy Me a Coffee: https://buymeacoffee.com/carlosfdev
+- Patreon: https://patreon.com/CarlosF_dev
