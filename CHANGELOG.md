@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on Keep a Changelog, and this project adheres to
 Semantic Versioning.
 
+## [1.0.2] - 2026-02-24
+
+### Changed
+- mark semver_sherpa as part of Flutter Sherpa Suite
+
 ## [1.0.1] - 2026-02-20
 ### Added
 - pub.dev usage example.
