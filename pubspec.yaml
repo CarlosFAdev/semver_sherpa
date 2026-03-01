@@ -1,6 +1,6 @@
 name: semver_sherpa
 description: CLI for Semantic Versioning and Keep a Changelog automation in Dart and Flutter repositories.
-version: 1.0.4
+version: 1.0.5
 homepage: https://github.com/CarlosFAdev/semver_sherpa
 repository: https://github.com/CarlosFAdev/semver_sherpa
 issue_tracker: https://github.com/CarlosFAdev/semver_sherpa/issues
