@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Ignore local IDE metadata and pana output artifacts in `.gitignore`.
+
 ## [1.0.4] - 2026-03-01
 
 ### Changed
