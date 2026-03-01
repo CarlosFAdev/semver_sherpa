@@ -11,7 +11,8 @@ abstract class VersionReader {
   String getCurrentVersion();
 }
 
-abstract class ReleaseExecutor extends VersionReader implements GitHistoryProvider {
+abstract class ReleaseExecutor extends VersionReader
+    implements GitHistoryProvider {
   Future<void> updateVersion(String newVersion);
   Future<void> commit(String message);
   Future<void> createTag(String tag);
@@ -31,8 +32,11 @@ class RealReleaseExecutor implements ReleaseExecutor {
 
   @override
   Future<String?> getLastTag() async {
-    final result =
-    await Process.run('git', ['describe', '--tags', '--abbrev=0']);
+    final result = await Process.run('git', [
+      'describe',
+      '--tags',
+      '--abbrev=0',
+    ]);
 
     if (result.exitCode != 0) {
       return null; // No tags yet
@@ -59,7 +63,6 @@ class RealReleaseExecutor implements ReleaseExecutor {
         .toList();
   }
 
-
   @override
   String getCurrentVersion() {
     final file = File('pubspec.yaml');
@@ -69,7 +72,12 @@ class RealReleaseExecutor implements ReleaseExecutor {
     }
     final content = file.readAsStringSync();
     final yaml = loadYaml(content);
-    return yaml['version'];
+    final Object? version = yaml['version'];
+    if (version is! String || version.trim().isEmpty) {
+      logger.error('Invalid or missing version in pubspec.yaml');
+      throw Exception('Invalid or missing version in pubspec.yaml');
+    }
+    return version;
   }
 
   @override
@@ -91,9 +99,15 @@ class RealReleaseExecutor implements ReleaseExecutor {
 
   @override
   Future<void> commit(String message) async {
-    await _runGitOrThrow(['add', '.'], failureMessage: 'Failed to stage changes.');
-    final result =
-    await _runGitOrThrow(['commit', '-m', message], failureMessage: 'Failed to create commit.');
+    await _runGitOrThrow([
+      'add',
+      '.',
+    ], failureMessage: 'Failed to stage changes.');
+    final result = await _runGitOrThrow([
+      'commit',
+      '-m',
+      message,
+    ], failureMessage: 'Failed to create commit.');
     if (result.stdout.toString().isNotEmpty) {
       logger.info(result.stdout.toString());
     }
@@ -101,15 +115,19 @@ class RealReleaseExecutor implements ReleaseExecutor {
 
   @override
   Future<void> createTag(String tag) async {
-    final result =
-    await _runGitOrThrow(['tag', tag], failureMessage: 'Failed to create tag.');
+    final result = await _runGitOrThrow([
+      'tag',
+      tag,
+    ], failureMessage: 'Failed to create tag.');
     logger.info(result.stdout.toString());
   }
 
   Future<bool> _hasCommitsToPush() async {
     final result = await Process.run('git', ['cherry', '-v']);
     if (result.exitCode != 0) {
-      logger.warn('Failed to check local commits: ${result.stderr.toString().trim()}');
+      logger.warn(
+        'Failed to check local commits: ${result.stderr.toString().trim()}',
+      );
       return true;
     }
     return (result.stdout as String).trim().isNotEmpty;
@@ -117,7 +135,11 @@ class RealReleaseExecutor implements ReleaseExecutor {
 
   Future<bool> _hasTagsToPush() async {
     final localResult = await Process.run('git', ['tag']);
-    final remoteResult = await Process.run('git', ['ls-remote', '--tags', 'origin']);
+    final remoteResult = await Process.run('git', [
+      'ls-remote',
+      '--tags',
+      'origin',
+    ]);
 
     final localTags = (localResult.stdout as String)
         .trim()
@@ -126,7 +148,9 @@ class RealReleaseExecutor implements ReleaseExecutor {
         .toList();
 
     if (remoteResult.exitCode != 0) {
-      logger.warn('Failed to check remote tags: ${remoteResult.stderr.toString().trim()}');
+      logger.warn(
+        'Failed to check remote tags: ${remoteResult.stderr.toString().trim()}',
+      );
       return true;
     }
 
@@ -137,7 +161,9 @@ class RealReleaseExecutor implements ReleaseExecutor {
         .map((line) => line.split('\t').last)
         .where((ref) => ref.startsWith('refs/tags/'))
         .map((ref) => ref.substring('refs/tags/'.length))
-        .map((tag) => tag.endsWith('^{}') ? tag.substring(0, tag.length - 3) : tag)
+        .map(
+          (tag) => tag.endsWith('^{}') ? tag.substring(0, tag.length - 3) : tag,
+        )
         .toSet();
 
     return localTags.any((t) => !remoteTags.contains(t));
@@ -155,13 +181,17 @@ class RealReleaseExecutor implements ReleaseExecutor {
 
     // Push commits and tags separately to avoid pushing tags when commits fail.
     if (commitsToPush) {
-      final result = await _runGitOrThrow(['push'], failureMessage: 'Failed to push commits.');
+      final result = await _runGitOrThrow([
+        'push',
+      ], failureMessage: 'Failed to push commits.');
       logger.info(result.stdout.toString());
     }
 
     if (tagsToPush) {
-      final result =
-      await _runGitOrThrow(['push', '--tags'], failureMessage: 'Failed to push tags.');
+      final result = await _runGitOrThrow([
+        'push',
+        '--tags',
+      ], failureMessage: 'Failed to push tags.');
       logger.info(result.stdout.toString());
     }
 
@@ -175,7 +205,9 @@ class RealReleaseExecutor implements ReleaseExecutor {
     final result = await Process.run('git', args);
     if (result.exitCode != 0) {
       final error = result.stderr.toString().trim();
-      throw Exception('$failureMessage ${error.isEmpty ? '' : '($error)'}'.trim());
+      throw Exception(
+        '$failureMessage ${error.isEmpty ? '' : '($error)'}'.trim(),
+      );
     }
     if (result.stderr.toString().trim().isNotEmpty) {
       logger.warn(result.stderr.toString());
@@ -214,7 +246,12 @@ class DryRunReleaseExecutor implements ReleaseExecutor {
     }
     final content = file.readAsStringSync();
     final yaml = loadYaml(content);
-    return yaml['version'];
+    final Object? version = yaml['version'];
+    if (version is! String || version.trim().isEmpty) {
+      logger.error('Invalid or missing version in pubspec.yaml');
+      throw Exception('Invalid or missing version in pubspec.yaml');
+    }
+    return version;
   }
 
   @override

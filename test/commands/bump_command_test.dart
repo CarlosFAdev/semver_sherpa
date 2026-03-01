@@ -12,15 +12,12 @@ void main() {
 
   group('BumpCommand validation', () {
     test('throws UsageException when no bump type is provided', () async {
-      expect(
-            () => runner.run(['bump']),
-        throwsA(isA<UsageException>()),
-      );
+      expect(() => runner.run(['bump']), throwsA(isA<UsageException>()));
     });
 
     test('throws UsageException for invalid bump type', () async {
       expect(
-            () => runner.run(['bump', 'invalid']),
+        () => runner.run(['bump', 'invalid']),
         throwsA(isA<UsageException>()),
       );
     });
@@ -28,43 +25,34 @@ void main() {
 
   group('BumpCommand valid flows', () {
     test('accepts patch bump', () async {
-      expect(
-            () => runner.run(['bump', 'patch', '--dry-run']),
-        returnsNormally,
-      );
+      expect(() => runner.run(['bump', 'patch', '--dry-run']), returnsNormally);
     });
 
     test('accepts minor bump', () async {
-      expect(
-            () => runner.run(['bump', 'minor', '--dry-run']),
-        returnsNormally,
-      );
+      expect(() => runner.run(['bump', 'minor', '--dry-run']), returnsNormally);
     });
 
     test('accepts major bump', () async {
-      expect(
-            () => runner.run(['bump', 'major', '--dry-run']),
-        returnsNormally,
-      );
+      expect(() => runner.run(['bump', 'major', '--dry-run']), returnsNormally);
     });
 
     test('accepts --no-commit flag', () async {
       expect(
-            () => runner.run(['bump', 'patch', '--no-commit', '--dry-run']),
+        () => runner.run(['bump', 'patch', '--no-commit', '--dry-run']),
         returnsNormally,
       );
     });
 
     test('accepts --no-tag flag', () async {
       expect(
-            () => runner.run(['bump', 'patch', '--no-tag', '--dry-run']),
+        () => runner.run(['bump', 'patch', '--no-tag', '--dry-run']),
         returnsNormally,
       );
     });
 
     test('accepts --push flag', () async {
       expect(
-            () => runner.run(['bump', 'patch', '--push', '--dry-run']),
+        () => runner.run(['bump', 'patch', '--push', '--dry-run']),
         returnsNormally,
       );
     });

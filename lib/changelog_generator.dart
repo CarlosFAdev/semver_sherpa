@@ -1,21 +1,27 @@
+// ignore_for_file: unnecessary_library_name
+
+/// Changelog generation utilities backed by git commit history.
+library changelog_generator;
+
 import 'release_executor.dart';
 
 typedef DateTimeProvider = DateTime Function();
 
+/// Builds Keep a Changelog sections from categorized commit history.
 class ChangelogGenerator {
   final ReleaseExecutor executor;
   final DateTimeProvider _now;
 
+  /// Creates a changelog generator with an optional deterministic clock.
   ChangelogGenerator(this.executor, {DateTimeProvider? now})
-      : _now = now ?? DateTime.now;
+    : _now = now ?? DateTime.now;
 
+  /// Generates a versioned changelog section for [newVersion].
   Future<String> generate(String newVersion) async {
     final lastTag = await executor.getLastTag();
     final commits = await executor.getCommitsSince(lastTag);
 
-    final filtered = commits
-        .where((c) => !_isReleaseCommit(c))
-        .toList();
+    final filtered = commits.where((c) => !_isReleaseCommit(c)).toList();
 
     if (filtered.isEmpty) {
       return _emptySection(newVersion);
@@ -26,13 +32,12 @@ class ChangelogGenerator {
     return _buildSection(newVersion, categorized);
   }
 
+  /// Generates the `Unreleased` changelog section.
   Future<String> generateUnreleased() async {
     final lastTag = await executor.getLastTag();
     final commits = await executor.getCommitsSince(lastTag);
 
-    final filtered = commits
-        .where((c) => !_isReleaseCommit(c))
-        .toList();
+    final filtered = commits.where((c) => !_isReleaseCommit(c)).toList();
 
     if (filtered.isEmpty) {
       return _emptyUnreleased();
@@ -84,9 +89,7 @@ class ChangelogGenerator {
   }
 
   String _cleanMessage(String message) {
-    return message
-        .replaceFirst(RegExp(r'^\w+(\(.+\))?:\s*'), '')
-        .trim();
+    return message.replaceFirst(RegExp(r'^\w+(\(.+\))?:\s*'), '').trim();
   }
 
   String _buildSection(String version, Map<String, List<String>> categories) {

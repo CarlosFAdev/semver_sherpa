@@ -19,8 +19,7 @@ class ChangelogService {
   String upsertUnreleasedInContent(String content, String section) {
     final normalizedSection = section.trimRight();
     // Keep a Changelog expects a single Unreleased section; replace if present.
-    final unreleasedPattern =
-        RegExp(r'## \[Unreleased\][\s\S]*?(?=\n## \[|$)');
+    final unreleasedPattern = RegExp(r'## \[Unreleased\][\s\S]*?(?=\n## \[|$)');
 
     if (unreleasedPattern.hasMatch(content)) {
       return content.replaceFirst(unreleasedPattern, normalizedSection);
@@ -45,8 +44,7 @@ class ChangelogService {
 
   String insertReleaseInContent(String content, String section) {
     final normalizedSection = section.trimRight();
-    final unreleasedPattern =
-        RegExp(r'## \[Unreleased\][\s\S]*?(?=\n## \[|$)');
+    final unreleasedPattern = RegExp(r'## \[Unreleased\][\s\S]*?(?=\n## \[|$)');
 
     if (unreleasedPattern.hasMatch(content)) {
       return content.replaceFirstMapped(unreleasedPattern, (match) {

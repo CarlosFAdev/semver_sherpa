@@ -22,8 +22,10 @@ All notable changes.
       final updated = service.upsertUnreleasedInContent(content, section);
 
       expect(updated, contains('## [Unreleased]'));
-      expect(updated.indexOf('## [Unreleased]'),
-          lessThan(updated.indexOf('## [1.0.0]')));
+      expect(
+        updated.indexOf('## [Unreleased]'),
+        lessThan(updated.indexOf('## [1.0.0]')),
+      );
     });
 
     test('replaces existing Unreleased section', () {
@@ -90,10 +92,14 @@ _No significant changes._
 
       final updated = service.insertReleaseInContent(content, section);
 
-      expect(updated.indexOf('## [Unreleased]'),
-          lessThan(updated.indexOf('## [1.1.0]')));
-      expect(updated.indexOf('## [1.1.0]'),
-          lessThan(updated.indexOf('## [1.0.0]')));
+      expect(
+        updated.indexOf('## [Unreleased]'),
+        lessThan(updated.indexOf('## [1.1.0]')),
+      );
+      expect(
+        updated.indexOf('## [1.1.0]'),
+        lessThan(updated.indexOf('## [1.0.0]')),
+      );
     });
 
     test('inserts release before first version when Unreleased is missing', () {
@@ -114,8 +120,10 @@ All notable changes.
 
       final updated = service.insertReleaseInContent(content, section);
 
-      expect(updated.indexOf('## [1.1.0]'),
-          lessThan(updated.indexOf('## [1.0.0]')));
+      expect(
+        updated.indexOf('## [1.1.0]'),
+        lessThan(updated.indexOf('## [1.0.0]')),
+      );
     });
   });
 }

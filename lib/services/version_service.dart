@@ -11,15 +11,15 @@ class VersionService {
   final DateTimeProvider _now;
 
   VersionService(this.executor, {DateTimeProvider? now})
-      : _now = now ?? DateTime.now;
+    : _now = now ?? DateTime.now;
 
   Future<void> runRelease(
-      String bumpType, {
-        bool noCommit = false,
-        bool noTag = false,
-        bool push = false,
-        bool noChangelog = false,
-      }) async {
+    String bumpType, {
+    bool noCommit = false,
+    bool noTag = false,
+    bool push = false,
+    bool noChangelog = false,
+  }) async {
     if (!_isValidBumpType(bumpType)) {
       throw ArgumentError('Invalid bump type: $bumpType');
     }
@@ -33,16 +33,22 @@ class VersionService {
 
     if (!noCommit) {
       if (!noChangelog) {
-        final changelog =
-        await ChangelogGenerator(executor, now: _now).generate(nextVersion);
+        final changelog = await ChangelogGenerator(
+          executor,
+          now: _now,
+        ).generate(nextVersion);
 
         await _appendToChangelog(changelog);
       }
 
       await executor.commit('chore: release $nextVersion');
     } else if (!noTag) {
-      executor.getLogger.warn('[WARNING] Cannot generate changelog because commit was skipped.');
-      executor.getLogger.warn('[WARNING] Cannot create tag because commit was skipped.');
+      executor.getLogger.warn(
+        '[WARNING] Cannot generate changelog because commit was skipped.',
+      );
+      executor.getLogger.warn(
+        '[WARNING] Cannot create tag because commit was skipped.',
+      );
     }
 
     if (canTag) {
@@ -52,16 +58,18 @@ class VersionService {
     if (!noCommit) {
       if (push) await executor.push();
     } else if (push) {
-      executor.getLogger.warn('[WARNING] Cannot push because commit was skipped.');
+      executor.getLogger.warn(
+        '[WARNING] Cannot push because commit was skipped.',
+      );
     }
   }
 
   Future<void> setVersion(
-      String version, {
-        bool noCommit = false,
-        bool noTag = false,
-        bool push = false,
-      }) async {
+    String version, {
+    bool noCommit = false,
+    bool noTag = false,
+    bool push = false,
+  }) async {
     if (!isValidVersion(version)) {
       throw ArgumentError('Invalid semantic version format');
     }
@@ -73,7 +81,9 @@ class VersionService {
     if (!noCommit) {
       await executor.commit('chore: set version to $version');
     } else if (!noTag) {
-      executor.getLogger.warn('[WARNING] Cannot create tag because commit was skipped.');
+      executor.getLogger.warn(
+        '[WARNING] Cannot create tag because commit was skipped.',
+      );
     }
 
     if (canTag) {
@@ -83,7 +93,9 @@ class VersionService {
     if (!noCommit) {
       if (push) await executor.push();
     } else if (push) {
-      executor.getLogger.warn('[WARNING] Cannot push because commit was skipped.');
+      executor.getLogger.warn(
+        '[WARNING] Cannot push because commit was skipped.',
+      );
     }
   }
 
@@ -137,8 +149,10 @@ class VersionService {
     }
 
     final existing = await file.readAsString();
-    final withUnreleased =
-        service.upsertUnreleasedInContent(existing, emptyUnreleased);
+    final withUnreleased = service.upsertUnreleasedInContent(
+      existing,
+      emptyUnreleased,
+    );
     final updated = service.insertReleaseInContent(withUnreleased, content);
 
     await file.writeAsString(updated);

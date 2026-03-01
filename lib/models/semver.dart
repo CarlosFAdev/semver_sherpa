@@ -6,12 +6,12 @@ class SemVer {
   final String? buildMetadata;
 
   SemVer(
-      this.major,
-      this.minor,
-      this.patch, {
-        this.preRelease,
-        this.buildMetadata,
-      });
+    this.major,
+    this.minor,
+    this.patch, {
+    this.preRelease,
+    this.buildMetadata,
+  });
 
   factory SemVer.parse(String input) {
     final regex = RegExp(

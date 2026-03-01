@@ -1,23 +1,43 @@
+// ignore_for_file: unnecessary_library_name
+
+/// Command library for SemVer bump operations.
+library bump_command;
+
 import 'package:args/command_runner.dart';
 import '../release_executor.dart';
 import '../services/version_service.dart';
 
+/// Bumps the current package version using SemVer semantics.
 class BumpCommand extends Command<void> {
   @override
   String get name => 'bump';
   @override
   String get description => 'Increment the version (major, minor, patch)';
 
+  /// Creates the `bump` command and its supported flags.
   BumpCommand() {
     argParser
       ..addFlag('no-commit', negatable: false, help: 'Do not create a commit')
       ..addFlag('no-tag', negatable: false, help: 'Do not create a tag')
-      ..addFlag('dry-run', negatable: false, help: 'Simulate the release without changes')
-      ..addFlag('push', negatable: false, help: 'Push changes after the release')
-      ..addFlag('no-changelog', negatable: false, help: 'Do not generate a Changelog');
+      ..addFlag(
+        'dry-run',
+        negatable: false,
+        help: 'Simulate the release without changes',
+      )
+      ..addFlag(
+        'push',
+        negatable: false,
+        help: 'Push changes after the release',
+      )
+      ..addFlag(
+        'no-changelog',
+        negatable: false,
+        help: 'Do not generate a Changelog',
+      );
   }
 
   @override
+  /// Executes a release bump flow for `major`, `minor`, or `patch`.
   Future<void> run() async {
     final noCommit = argResults!['no-commit'] as bool;
     final noTag = argResults!['no-tag'] as bool;
@@ -26,7 +46,10 @@ class BumpCommand extends Command<void> {
     final noChangelog = argResults!['no-changelog'] as bool;
 
     if (argResults!.rest.isEmpty) {
-      throw UsageException('You must specify bump type: major, minor, or patch', usage);
+      throw UsageException(
+        'You must specify bump type: major, minor, or patch',
+        usage,
+      );
     }
 
     final bumpType = argResults!.rest.first;
@@ -47,7 +70,7 @@ class BumpCommand extends Command<void> {
       noCommit: noCommit,
       noTag: noTag,
       push: push,
-      noChangelog: noChangelog || dryRun
+      noChangelog: noChangelog || dryRun,
     );
   }
 }

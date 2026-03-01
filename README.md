@@ -1,107 +1,59 @@
-# SemVer Sherpa
+# semver_sherpa
 
-**SemVer Sherpa - Part of the Flutter Sherpa Suite**
+**Flutter Sherpa Suite — Professional Engineering Toolkit for Flutter Teams**
 
-SemVer Sherpa is a Dart CLI that manages SemVer versions for Flutter/Dart projects
-and keeps your CHANGELOG.md in a Keep a Changelog-compatible format.
+The Flutter Sherpa Suite is a collection of focused, production-grade engineering tools for Dart and Flutter projects. Each Sherpa solves a distinct problem in the software lifecycle — from architecture and versioning to technical debt, migrations, and risk analysis.
 
-## Features
-- bump versions (major/minor/patch) with build metadata
-- set an explicit version
-- generate or update an Unreleased changelog section from git history
-- validate a clean git working tree before releases
+`semver_sherpa` automates Semantic Versioning and Keep a Changelog workflows for Dart and Flutter repositories.
 
-## Requirements
-- Dart SDK 3.11+
-- git
-- a `pubspec.yaml` with a `version:` field
+[![pub package](https://img.shields.io/pub/v/semver_sherpa.svg)](https://pub.dev/packages/semver_sherpa)
+[![pub points](https://img.shields.io/pub/points/semver_sherpa)](https://pub.dev/packages/semver_sherpa/score)
+[![Dart SDK](https://img.shields.io/badge/dart-%5E3.11.0-blue.svg)](https://dart.dev/get-dart)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-support-FFDD00?logo=buymeacoffee&logoColor=000000)](https://buymeacoffee.com/carlosfdev)
+[![Patreon](https://img.shields.io/badge/Patreon-support-000000?logo=patreon)](https://patreon.com/CarlosF_dev)
 
-## Install
-Install from pub.dev:
+## Installation
 
 ```bash
 dart pub global activate semver_sherpa
-```
-
-The executable name is `semver_sherpa`:
-
-```bash
 semver_sherpa --help
 ```
 
-Alternatively, run directly from the repo:
-
-```bash
-dart run bin/semver_sherpa.dart --help
-```
-
-For local development installs:
-
-```bash
-dart pub global activate --source path .
-```
-
-## Usage
-
-### Bump a version
+## Quick Start
 
 ```bash
 semver_sherpa bump patch
-```
-
-Options:
-- `--dry-run` simulate without changing files
-- `--no-commit` update files without committing
-- `--no-tag` skip git tag creation
-- `--no-changelog` skip changelog generation
-- `--push` push commits and tags after a successful release
-
-### Set a version
-
-```bash
-semver_sherpa set 1.2.3+4
-```
-
-Options:
-- `--dry-run` simulate without changing files
-- `--no-commit` update files without committing
-- `--no-tag` skip git tag creation
-- `--push` push changes after setting a version
-
-### Generate changelog entries
-
-```bash
 semver_sherpa changelog
-```
-
-This command updates the `## [Unreleased]` section using commits since the last
-Git tag. Use `--dry-run` to print the section without writing.
-
-### Validate repository state
-
-```bash
 semver_sherpa validate
 ```
 
-Fails if there are uncommitted changes.
+## Core Commands
 
-## Changelog format
-Entries are grouped into the Keep a Changelog categories (Added, Fixed, Changed,
-Removed, Deprecated, Security). Commits are inferred by prefix:
-- `feat:` -> Added
-- `fix:` -> Fixed
-- `docs:`, `refactor:`, `perf:`, `style:` -> Changed
-- `remove:` -> Removed
+```text
+semver_sherpa bump <major|minor|patch>
+semver_sherpa set <version>
+semver_sherpa changelog
+semver_sherpa validate
+```
 
-## Flutter Sherpa Suite
-SemVer Sherpa is part of the Flutter Sherpa Suite alongside
-`~/develop/arch_sherpa`. Use `arch_sherpa` for architecture scaffolding
-and `semver_sherpa` for disciplined release/version workflows.
+## Documentation
 
-## Licensing
-SemVer Sherpa is licensed under the MIT License. See `LICENSE` for details.
+- [Configuration and Behavior Reference](docs/config-reference.md)
+- [Troubleshooting](docs/troubleshooting.md)
+- [Pub Score Playbook](docs/pub_score_playbook.md)
 
-## Support
+## Part of the Flutter Sherpa Suite
+
+- [arch_sherpa](https://github.com/CarlosFAdev/arch_sherpa) - Architectural validation and structure enforcement
+- [semver_sherpa](https://github.com/CarlosFAdev/semver_sherpa) - Semantic versioning and changelog automation
+- [techdebt_sherpa](https://github.com/CarlosFAdev/techdebt_sherpa) - Technical debt observatory and hotspot detection
+
+## Support the Project
 
 - Buy Me a Coffee: https://buymeacoffee.com/carlosfdev
 - Patreon: https://patreon.com/CarlosF_dev
+
+## License
+
+MIT. See [LICENSE](LICENSE).

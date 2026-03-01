@@ -10,10 +10,10 @@ class ReleaseTool {
   final CommandRunner<void> _runner;
 
   ReleaseTool()
-      : _runner = CommandRunner<void>(
-    'semver_sherpa',
-    'A CLI tool to manage versions and releases',
-  ) {
+    : _runner = CommandRunner<void>(
+        'semver_sherpa',
+        'A CLI tool to manage versions and releases',
+      ) {
     _runner
       ..addCommand(BumpCommand())
       ..addCommand(ChangelogCommand())

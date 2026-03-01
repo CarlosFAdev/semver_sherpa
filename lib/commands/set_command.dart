@@ -3,21 +3,28 @@ import '../release_executor.dart';
 import '../services/version_service.dart';
 import '../utils/version_validator.dart';
 
+/// Sets an explicit package version.
 class SetCommand extends Command<void> {
   @override
   String get name => 'set';
   @override
   String get description => 'Set the version explicitly';
 
+  /// Creates the `set` command and its supported flags.
   SetCommand() {
     argParser
       ..addFlag('no-commit', negatable: false, help: 'Do not create a commit')
       ..addFlag('no-tag', negatable: false, help: 'Do not create a tag')
       ..addFlag('dry-run', negatable: false, help: 'Simulate the change')
-      ..addFlag('push', negatable: false, help: 'Push changes after setting version');
+      ..addFlag(
+        'push',
+        negatable: false,
+        help: 'Push changes after setting version',
+      );
   }
 
   @override
+  /// Executes an explicit version set flow with optional commit/tag/push.
   Future<void> run() async {
     final noCommit = argResults!['no-commit'] as bool;
     final noTag = argResults!['no-tag'] as bool;
