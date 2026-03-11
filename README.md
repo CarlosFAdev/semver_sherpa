@@ -39,9 +39,9 @@ semver_sherpa validate
 
 ## Documentation
 
-- [Configuration and Behavior Reference](docs/config-reference.md)
-- [Troubleshooting](docs/troubleshooting.md)
-- [Pub Score Playbook](docs/pub_score_playbook.md)
+- [Configuration and Behavior Reference](doc/config-reference.md)
+- [Troubleshooting](doc/troubleshooting.md)
+- [Pub Score Playbook](doc/pub_score_playbook.md)
 
 ## Part of the Flutter Sherpa Suite
 
